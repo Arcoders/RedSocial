@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class FeatureTestCase extends TestCase
+abstract class FeatureTestCase extends TestCase
 {
     use DatabaseTransactions;
 }

@@ -1,0 +1,53 @@
+[33mcommit 516332d12c2a40bc860f95eab06b1f89d9b8ed61[m
+Author: Ismael Haytam <anonismaa@gmail.com>
+Date:   Wed Apr 26 23:38:07 2017 +0200
+
+    TDD Validación de datos de un formulario.
+
+[33mcommit 3eff48ec194c7e89977454739a3cb6dbd487c78b[m
+Author: Ismael Haytam <anonismaa@gmail.com>
+Date:   Wed Apr 26 19:38:47 2017 +0200
+
+    TDD Redirección en caso de que el usuario no esté autenticado.
+
+[33mcommit b053822d462619f746a309cdfae4af46ca39a367[m
+Author: Ismael Haytam <anonismaa@gmail.com>
+Date:   Wed Apr 26 18:36:38 2017 +0200
+
+    TDD creación de posts para el foro
+
+[33mcommit 1f8e9767ff0f0f451334b1c895e290918fd59454[m
+Author: Ismael Haytam <anonismaa@gmail.com>
+Date:   Tue Apr 25 18:36:14 2017 +0200
+
+    Add feature test case
+
+[33mcommit b2237a6b354d8d80895989334d48c88dea83ab23[m
+Author: Ismael Haytam <anonismaa@gmail.com>
+Date:   Tue Apr 25 18:15:31 2017 +0200
+
+    Add Codeship status image
+
+[33mcommit 4f65e0dee29e1a151fac71cf6a5963d6b6d7d806[m
+Author: Ismael Haytam <anonismaa@gmail.com>
+Date:   Tue Apr 25 17:57:07 2017 +0200
+
+    Change readme
+
+[33mcommit c69ca985112069cf86b90d733189de109a972766[m
+Author: Ismael Haytam <anonismaa@gmail.com>
+Date:   Mon Apr 24 20:07:35 2017 +0200
+
+    Fix APP_URL .env.codeship
+
+[33mcommit a441f7509d860604e63aaba06be2edb726db194c[m
+Author: Ismael Haytam <anonismaa@gmail.com>
+Date:   Mon Apr 24 19:45:16 2017 +0200
+
+    Database configuration for Codeship
+
+[33mcommit d282298b1bc3e4dbd5068fe492b3bb492735b722[m
+Author: Ismael Haytam <anonismaa@gmail.com>
+Date:   Mon Apr 24 19:25:10 2017 +0200
+
+    First commit
