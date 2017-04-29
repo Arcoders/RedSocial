@@ -23,7 +23,7 @@ class CommentPolicyTest extends TestCase
 
     }
 
-    public function test_non_authors_cannot_can_select_an_answer()
+    public function test_non_authors_cannot_select_an_answer()
     {
 
         $comment = factory(Comment::class)->create();
