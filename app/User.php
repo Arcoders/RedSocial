@@ -28,9 +28,24 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function subscriptions()
+    {
+        return $this->belongsToMany(Post::class, 'subscriptions');
+    }
+
+    public function isSubscribedTo(Post $post)
+    {
+        return $this->subscriptions()->where('post_id', $post->id)->count() > 0;
+    }
+
+    public function subscribTo(Post $post)
+    {
+        $this->subscriptions()->attach($post);
+    }
+
     public function posts()
     {
-        return $this->hasMany(post::class);
+        return $this->hasMany(Post::class);
     }
 
     public function comments()

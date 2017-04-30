@@ -33,3 +33,12 @@ Route::post('comments/{comment}/accept', [
     'as' => 'comments.accept'
 
 ]);
+
+// Subscribe
+
+Route::post('posts/{post}/subscribe', [
+
+    'uses' => 'SubscriptionController@subscribe',
+    'as' => 'posts.subscribe'
+
+]);
