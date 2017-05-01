@@ -11,7 +11,7 @@ class SubscriptionController extends Controller
     public function subscribe(Post $post)
     {
 
-        auth()->user()->subscribTo($post);
+        auth()->user()->subscribeTo($post);
 
         return redirect($post->url);
 

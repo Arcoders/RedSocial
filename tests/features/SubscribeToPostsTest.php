@@ -30,7 +30,7 @@ class SubscribeToPostsTest extends FeatureTestCase
 
         $post = $this->createPost();
         $user = factory(User::class)->create();
-        $user->subscribTo($post);
+        $user->subscribeTo($post);
         $this->actingAs($user);
 
         $this->visit($post->url)
