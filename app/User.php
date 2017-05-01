@@ -87,8 +87,8 @@ class User extends Authenticatable
         $this->comments()->save($comment);
 
         Notification::send(
-            $post->subscribers()->where('users.id', '!=', $this->id)->get(), 
-            new PostCommented($this, $comment)
+            $post->subscribers()->where('users.id', '!=', $this->id)->get(),
+            new PostCommented($comment)
         );
 
         return $comment;
