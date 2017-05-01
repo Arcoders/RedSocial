@@ -25,9 +25,7 @@ class PostCommentedTest extends TestCase
         $comment->user = $author;
 
         $notification = new PostCommented($comment);
-
         $subscriber = new User();
-
         $message = $notification->toMail($subscriber);
 
         $this->assertInstanceOf(MailMessage::class, $message);
