@@ -28,6 +28,17 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function createPost(array $data)
+    {
+
+        $post = new Post($data);
+        $this->posts()->save($post);
+        $this->subscribTo($post);
+
+        return $post;
+
+    }
+
     public function subscriptions()
     {
         return $this->belongsToMany(Post::class, 'subscriptions');
@@ -41,6 +52,11 @@ class User extends Authenticatable
     public function subscribTo(Post $post)
     {
         $this->subscriptions()->attach($post);
+    }
+
+    public function unsubscribeFrom(Post $post)
+    {
+        $this->subscriptions()->detach($post);
     }
 
     public function posts()
