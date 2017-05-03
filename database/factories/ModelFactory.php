@@ -24,6 +24,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Token::class, function (Faker\Generator $faker) {
+    static $password;
+
+    return [
+        'user_id' => 1,
+        'token' => 'abcd123',
+    ];
+});
+
 $factory->define(App\Post::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence,
