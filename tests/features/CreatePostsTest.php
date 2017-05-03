@@ -52,7 +52,7 @@ class createPostsTest extends FeatureTestCase
     {
 
         $this->visit(route('posts.create'))
-             ->seePageIs(route('login'));
+             ->seePageIs(route('token'));
 
     }
 
