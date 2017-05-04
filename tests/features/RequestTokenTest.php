@@ -22,9 +22,9 @@ class RequestTokenTest extends FeatureTestCase
 
         $this->assertNotNull($token, 'A token was not created');
 
-        Mail::assertSentTo($user, TokenMail::class, function ($mail) use ($token) {
+        Mail::assertSent(TokenMail::class, function ($mail) use ($token, $user) {
 
-            return $mail->token->id === $token->id;
+            return $mail->hasTo($user) && $mail->token->id === $token->id;
 
         });
 
@@ -48,7 +48,9 @@ class RequestTokenTest extends FeatureTestCase
 
         $this->dontSeeIsAuthenticated();
 
-        $this->see('El campo correo electrónico es obligatorio');
+        $this->seeErrors([
+            'email' => 'El campo correo electrónico es obligatorio'
+        ]);
 
     }
 
@@ -59,7 +61,9 @@ class RequestTokenTest extends FeatureTestCase
              ->type('Random', 'email')
              ->press('Solicitar token');
 
-        $this->see('Correo electrónico no es un correo válido');
+        $this->seeErrors([
+            'email' => 'Correo electrónico no es un correo válido'
+        ]);
 
     }
 
@@ -72,7 +76,9 @@ class RequestTokenTest extends FeatureTestCase
              ->type('admin@anonisma.com', 'email')
              ->press('Solicitar token');
 
-         $this->see('Este correo electrónico no existe');
+         $this->seeErrors([
+             'email' => 'Este correo electrónico no existe'
+         ]);
 
     }
 
