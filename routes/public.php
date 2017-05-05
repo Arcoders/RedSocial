@@ -3,7 +3,7 @@
 
 // Routa home para listar las preguntas
 
-Route::get('/', [
+Route::get('{category?}', [
 
     'uses' => 'PostController@index',
     'as' => 'posts.index'
