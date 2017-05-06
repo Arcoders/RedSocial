@@ -15,14 +15,14 @@ Route::get('posts/{post}-{slug}', [
 
 ])->where('post', '\d+');
 
-Route::get('posts-pendientes', [
+Route::get('posts-pendientes/{category?}', [
 
     'uses' => 'PostController@index',
     'as' => 'posts.pending'
 
 ]);
 
-Route::get('posts-completados', [
+Route::get('posts-completados/{category?}', [
 
     'uses' => 'PostController@index',
     'as' => 'posts.completed'
