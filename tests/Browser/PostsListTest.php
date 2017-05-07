@@ -64,4 +64,98 @@ class PostsListTest extends DuskTestCase
 
     }
 
+    function test_a_user_can_see_posts_filtered_by_status()
+    {
+
+        $pendingPost = factory(Post::class)->create([
+            'title' => 'Post pendiente',
+            'pending' => true
+        ]);
+
+        $completedPost = factory(Post::class)->create([
+            'title' => 'Post completado',
+            'pending' => false
+        ]);
+
+        $this->browse(function($browser) use($pendingPost, $completedPost) {
+
+            $browser->visit(route('posts.pending'))
+                    ->assertSee($pendingPost->title)
+                    ->assertDontSee($completedPost->title);
+
+            $browser->visit(route('posts.completed'))
+                    ->assertSee($completedPost->title)
+                    ->assertDontSee($pendingPost->title);
+
+        });
+
+    }
+
+    function test_a_user_can_see_posts_filtered_by_status_and_category()
+     {
+         $laravel = factory(Category::class)->create([
+             'name' => 'Categoria de Laravel',
+             'slug' => 'laravel'
+         ]);
+
+         $vue = factory(Category::class)->create([
+             'name' => 'Vue.js',
+             'slug' => 'vue-js'
+         ]);
+
+         $pendingLaravelPost = factory(Post::class)->create([
+             'title' => 'Post pendiente de Laravel',
+             'category_id' => $laravel->id,
+             'pending' => true,
+         ]);
+
+         $pendingVuePost = factory(Post::class)->create([
+             'title' => 'Post pendiente de Vue.js',
+             'category_id' => $vue->id,
+             'pending' => true,
+         ]);
+
+         $completedPost = factory(Post::class)->create([
+             'title' => 'Post completado',
+             'pending' => false,
+         ]);
+
+         $this->browse(function($browser) use($pendingLaravelPost, $pendingVuePost, $completedPost){
+             $browser->visit(route('posts.index'))
+                 ->clickLink('Posts pendientes')
+                 ->clickLink('Categoria de Laravel')
+                 ->assertPathIs('/posts-pendientes/laravel')
+                 ->assertSee($pendingLaravelPost->title)
+                 ->assertDontSee($completedPost->title)
+                 ->assertDontSee($pendingVuePost->title);
+         });
+     }
+
+    function test_the_posts_are_paginated()
+     {
+
+         $first = factory(Post::class)->create([
+             'title' => 'Post más antiguo',
+             'created_at' => Carbon::now()->subDays(2)
+         ]);
+
+         $posts = factory(Post::class)->times(15)->create([
+            'created_at' => Carbon::now()->subDay()
+         ]);
+
+         $last = factory(Post::class)->create([
+             'title' => 'Post más reciente',
+             'created_at' => Carbon::now()
+         ]);
+
+         $this->browse(function($browser) use($last, $first){
+             $browser->visit('/')
+                 ->assertSee($last->title)
+                 ->assertDontSee($first->title)
+                 ->clickLink('2')
+                 ->assertSee($first->title)
+                 ->assertDontSee($last->title);
+         });
+     }
+
 }
