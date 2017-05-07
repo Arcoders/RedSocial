@@ -1,56 +1,70 @@
 @extends('layouts/app')
 
 @section('content')
+    <div class="row">
+        <div class="col-md-10">
+            <h1>{{ $post->title }}</h1>
+        </div>
+    </div>
 
-    <h1>{{ $post->title }}</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <p>
+                Publicado por <a href="#">{{ $post->user->name }}</a>
+                {{ $post->created_at->diffForHumans() }}
+                en <a href="{{ $post->category->url }}">{{ $post->category->name }}</a>.
+                @if ($post->pending)
+                    <span class="label label-warning">Pendiente</span>
+                @else
+                    <span class="label label-success">Completado</span>
+                @endif
+            </p>
 
-    {!! $post->safe_html_content !!}
+            {!! $post->safe_html_content !!}
 
-    <p>{{ $post->user->name }}</p>
-
-    @if (auth()->check())
-
-        @if (!auth()->user()->isSubscribedTo($post))
-
-            {!! Form::open(['route' => ['posts.subscribe', $post], 'method' => 'POST']) !!}
-                <button type="submit">Suscribirse al post</button>
-            {!! Form::close() !!}
-
-        @else
-
-            {!! Form::open(['route' => ['posts.unsubscribe', $post], 'method' => 'DELETE']) !!}
-                <button type="submit">Desuscribirse del post</button>
-            {!! Form::close() !!}
-
-        @endif
-
-    @endif
-
-
-    <h4>Comentarios</h4>
-
-    {!! Form::open(['route' => ['comments.store', $post], 'method' => 'POST']) !!}
-
-        {!! Field::textarea('comment') !!}
-
-        <button type="submit">Publicar comentario</button>
-
-    {!! Form::close() !!}
-
-    @foreach($post->lastestComments as $comment)
-
-        <article class="{{ $comment->answer ? 'answer' : '' }}">
-
-            {{ $comment->comment }}
-
-            @if(Gate::allows('accept', $comment) && !$comment->answer)
-                {{!! Form::open(['route' => ['comments.accept', $comment], 'method' => 'POST']) !!}}
-                    <button type="submit">Aceptar respuesta</button>
-                {{!! Form::close() !!}}
+            @if (auth()->check())
+                @if (!auth()->user()->isSubscribedTo($post))
+                    {!! Form::open(['route' => ['posts.subscribe', $post], 'method' => 'POST']) !!}
+                    <button type="submit">Suscribirse al post</button>
+                    {!! Form::close() !!}
+                @else
+                    {!! Form::open(['route' => ['posts.unsubscribe', $post], 'method' => 'DELETE']) !!}
+                    <button type="submit">Desuscribirse del post</button>
+                    {!! Form::close() !!}
+                @endif
             @endif
 
-        </article>
+            <hr>
 
-    @endforeach
+            <h4>Comentarios</h4>
 
+            @foreach($post->lastestComments as $comment)
+
+                <article class="{{ $comment->answer ? 'answer' : '' }}">
+
+                    {{ $comment->comment }}
+
+                    @if(Gate::allows('accept', $comment) && !$comment->answer)
+                        {{!! Form::open(['route' => ['comments.accept', $comment], 'method' => 'POST']) !!}}
+                            <button type="submit" class="btn btn-default">Aceptar respuesta</button>
+                        {{!! Form::close() !!}}
+                    @endif
+
+                </article>
+
+            @endforeach
+
+            {!! Form::open(['route' => ['comments.store', $post], 'method' => 'POST', 'class' => 'form']) !!}
+
+            {!! Field::textarea('comment', ['class' => 'form-control', 'rows' => 6, 'label' => 'Escribe un comentario']) !!}
+
+            <button type="submit" class="btn btn-primary">
+                Publicar comentario
+            </button>
+
+            {!! Form::close() !!}
+        </div>
+
+        {{-- @include('posts.sidebar') --}}
+    </div>
 @endsection
