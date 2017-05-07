@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(DuskServiceProvider::class);
         }
 
-        Carbon::setLocale(config('app.local'));
+        Carbon::setLocale(config('app.locale'));
 
     }
 }
