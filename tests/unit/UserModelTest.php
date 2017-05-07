@@ -1,0 +1,34 @@
+<?php
+
+use App\{Post, User};
+
+class UserModelTest extends TestCase
+{
+
+    public function test_user_owner_of_model_owns_the_model()
+    {
+
+        $user = new User();
+        $user->id = 1;
+
+        $post = new Post();
+        $post->user_id = $user->id;
+
+        $this->assertTrue($user->owns($post));
+
+    }
+
+    public function test_user_non_owner_of_model_does_not_own_the_model()
+    {
+
+        $user = new User();
+        $user->id = 1;
+
+        $post = new Post();
+        $post->user_id = 2;
+
+        $this->assertFalse($user->owns($post));
+
+    }
+
+}

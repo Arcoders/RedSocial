@@ -15,9 +15,9 @@ class ListPostController extends Controller
         list($orderColumn, $orderDirection) = $this->getListOrder($request->get('orden'));
 
         $posts = Post::query()
-                        ->scopes($this->getListScopes($category, $routeName))
-                        ->orderBy($orderColumn, $orderDirection)
-                        ->paginate();
+                ->scopes($this->getListScopes($category, $routeName))
+                ->orderBy($orderColumn, $orderDirection)
+                ->paginate();
 
         $posts->appends(request()->intersect(['orden']));
 
