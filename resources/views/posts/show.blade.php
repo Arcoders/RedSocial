@@ -44,6 +44,8 @@
 
                     {{ $comment->comment }}
 
+                    <hr>
+
                     @if(Gate::allows('accept', $comment) && !$comment->answer)
                         {{!! Form::open(['route' => ['comments.accept', $comment], 'method' => 'POST']) !!}}
                             <button type="submit" class="btn btn-default">Aceptar respuesta</button>
@@ -58,13 +60,11 @@
 
             {!! Field::textarea('comment', ['class' => 'form-control', 'rows' => 6, 'label' => 'Escribe un comentario']) !!}
 
-            <button type="submit" class="btn btn-primary">
-                Publicar comentario
-            </button>
+            <button type="submit" class="btn btn-primary">Publicar comentario</button>
 
             {!! Form::close() !!}
         </div>
 
-        {{-- @include('posts.sidebar') --}}
+        @include('posts.sidebar')
     </div>
 @endsection
