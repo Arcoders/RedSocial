@@ -42,7 +42,8 @@ class ListPostController extends Controller
         $scopes = [];
 
         if ($category->exists) $scopes['category'] = [$category];
-
+        if ($routeName == 'posts.mine') $scopes['byUser'] = [auth()->user()];
+        
         if ($routeName == 'posts.pending') $scopes[] = 'pending';
         if ($routeName == 'posts.completed') $scopes[] = 'completed';
 
