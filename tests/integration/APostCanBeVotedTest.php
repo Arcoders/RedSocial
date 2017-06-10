@@ -42,4 +42,32 @@ class APostCanBeVotedTest extends TestCase
         $this->assertSame(-1, $post->score);
     }
 
+    function test_a_post_cannot_be_upvoted_twice_by_the_same_user()
+    {
+        $this->actingAs($user = $this->defaultUser());
+
+        $post = $this->createPost();
+
+        Vote::upvote($post);
+        Vote::upvote($post);
+
+        $this->assertSame(1, Vote::count());
+
+        $this->assertSame(1, $post->score);
+    }
+
+    function test_a_post_cannot_be_downvoted_twice_by_the_same_user()
+    {
+        $this->actingAs($user = $this->defaultUser());
+
+        $post = $this->createPost();
+
+        Vote::downvote($post);
+        Vote::downvote($post);
+
+        $this->assertSame(1, Vote::count());
+
+        $this->assertSame(-1, $post->score);
+    }
+
 }

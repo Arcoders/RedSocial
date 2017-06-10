@@ -11,6 +11,13 @@ class Vote extends Model
 
     public static function upvote(Post $post)
     {
+        if(static::where([
+            'post_id' => $post->id,
+            'user_id' => auth()->id()
+        ])->exists()) {
+            return;
+        }
+
         static::create([
             'user_id' => auth()->id(),
             'post_id' => $post->id,
@@ -23,6 +30,14 @@ class Vote extends Model
 
     public static function downvote(Post $post)
     {
+
+        if(static::where([
+            'post_id' => $post->id,
+            'user_id' => auth()->id()
+        ])->exists()) {
+            return;
+        }
+
         static::create([
             'user_id' => auth()->id(),
             'post_id' => $post->id,
