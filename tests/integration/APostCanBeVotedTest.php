@@ -70,4 +70,34 @@ class APostCanBeVotedTest extends TestCase
         $this->assertSame(-1, $post->score);
     }
 
+    function test_a_user_can_switch_from_upvote_to_downvote()
+    {
+        $this->actingAs($user = $this->defaultUser());
+
+        $post = $this->createPost();
+
+        Vote::upvote($post);
+
+        Vote::downvote($post);
+
+        $this->assertSame(1, Vote::count());
+
+        $this->assertSame(-1, $post->score);
+    }
+
+    function test_a_user_can_switch_from_downvote_to_upvote()
+    {
+        $this->actingAs($user = $this->defaultUser());
+
+        $post = $this->createPost();
+
+        Vote::downvote($post);
+
+        Vote::upvote($post);
+
+        $this->assertSame(1, Vote::count());
+
+        $this->assertSame(1, $post->score);
+    }
+
 }
