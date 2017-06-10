@@ -19,12 +19,23 @@ class Vote extends Model
         static::addVote($post, -1);
     }
 
-    public static function addVote(Post $post, $amount)
+    protected static function addVote(Post $post, $amount)
     {
         static::updateOrCreate(
             ['post_id' => $post->id, 'user_id' => auth()->id()],
             ['vote' => $amount]
         );
+
+        $post->score = static::where(['post_id' => $post->id])->sum('vote');
+        $post->save();
+    }
+
+    public static function undoVote(Post $post)
+    {
+        static::where([
+            'post_id' => $post->id,
+            'user_id' => auth()->id()
+        ])->delete();
 
         $post->score = static::where(['post_id' => $post->id])->sum('vote');
         $post->save();
