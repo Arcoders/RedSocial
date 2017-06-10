@@ -88,4 +88,18 @@ class APostCanBeVotedTest extends TestCase
         $this->assertSame(1, $this->post->score);
     }
 
+    function test_the_post_score_is_calculated_correctly()
+    {
+        Vote::create([
+            'post_id' => $this->post->id,
+            'user_id' => $this->anyone()->id,
+            'vote' => 1
+        ]);
+
+        Vote::upvote($this->post);
+
+        $this->assertSame(2, Vote::count());
+        $this->assertSame(2, $this->post->score);
+    }
+
 }
