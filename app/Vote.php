@@ -21,4 +21,16 @@ class Vote extends Model
         $post->save();
     }
 
+    public static function downvote(Post $post)
+    {
+        static::create([
+            'user_id' => auth()->id(),
+            'post_id' => $post->id,
+            'vote' => -1
+        ]);
+
+        $post->score = -1;
+        $post->save();
+    }
+
 }
