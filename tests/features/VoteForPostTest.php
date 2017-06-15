@@ -2,6 +2,8 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
+use App\Vote;
+
 class VoteForPostTest extends TestCase
 {
 
@@ -47,6 +49,34 @@ class VoteForPostTest extends TestCase
          ]);
 
          $this->assertSame(-1, $post->fresh()->score);
+    }
+
+    function test_a_user_can_unvote_for_a_post()
+    {
+        $this->actingAs($user = $this->defaultUser());
+
+        $post = $this->createPost();
+
+        Vote::upvote($post);
+
+        $this->postJson($post->url . '/vote')
+             ->assertSuccessful()
+             ->assertJson([
+                 'new_score' => 0
+             ]);
+
+         $this->assertDatabaseMissing('votes', [
+             'post_id' => $post->id,
+             'user_id' => $user->id,
+             'vote' => 0
+         ]);
+
+         $this->assertDatabaseHas('posts', [
+            'id' => $post->id,
+            'score' => 0
+         ]);
+
+         $this->assertSame(0, $post->fresh()->score);
     }
 
 }
