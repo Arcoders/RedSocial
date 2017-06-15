@@ -7,13 +7,13 @@ class VoteForPostTest extends TestCase
 
     use DatabaseTransactions;
 
-    function test_a_user_can_vote_for_a_post()
+    function test_a_user_can_upvote_for_a_post()
     {
         $this->actingAs($user = $this->defaultUser());
 
         $post = $this->createPost();
 
-        $this->postJson($post->url . '/vote')
+        $this->postJson($post->url . '/upvote')
              ->assertSuccessful()
              ->assertJson([
                  'new_score' => 1
@@ -26,6 +26,27 @@ class VoteForPostTest extends TestCase
          ]);
 
          $this->assertSame(1, $post->fresh()->score);
+    }
+
+    function test_a_user_can_downvote_for_a_post()
+    {
+        $this->actingAs($user = $this->defaultUser());
+
+        $post = $this->createPost();
+
+        $this->postJson($post->url . '/downvote')
+             ->assertSuccessful()
+             ->assertJson([
+                 'new_score' => -1
+             ]);
+
+         $this->assertDatabaseHas('votes', [
+             'post_id' => $post->id,
+             'user_id' => $user->id,
+             'vote' => -1
+         ]);
+
+         $this->assertSame(-1, $post->fresh()->score);
     }
 
 }
