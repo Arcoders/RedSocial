@@ -18,6 +18,14 @@ class VoteForPostTest extends TestCase
              ->assertJson([
                  'new_score' => 1
              ]);
+
+         $this->assertDatabaseHas('votes', [
+             'post_id' => $post->id,
+             'user_id' => $user->id,
+             'vote' => 1
+         ]);
+
+         $this->assertSame(1, $post->fresh()->score);
     }
 
 }
