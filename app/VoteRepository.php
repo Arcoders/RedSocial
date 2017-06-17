@@ -5,39 +5,39 @@ namespace App;
 class VoteRepository
 {
 
-    public static function upvote(Post $post)
+    public function upvote(Post $post)
     {
-        static::addVote($post, 1);
+        $this->addVote($post, 1);
     }
 
-    public static function downvote(Post $post)
+    public function downvote(Post $post)
     {
-        static::addVote($post, -1);
+        $this->addVote($post, -1);
     }
 
-    protected static function addVote(Post $post, $amount)
+    protected function addVote(Post $post, $amount)
     {
-        static::updateOrCreate(
+        Vote::updateOrCreate(
             ['post_id' => $post->id, 'user_id' => auth()->id()],
             ['vote' => $amount]
         );
 
-        static::refreshPostScore($post);
+        $this->refreshPostScore($post);
     }
 
-    public static function undoVote(Post $post)
+    public function undoVote(Post $post)
     {
-        static::where([
+        Vote::where([
             'post_id' => $post->id,
             'user_id' => auth()->id()
         ])->delete();
 
-        static::refreshPostScore($post);
+        $this->refreshPostScore($post);
     }
 
-    protected static function refreshPostScore(Post $post)
+    protected function refreshPostScore(Post $post)
     {
-        $post->score = static::where(['post_id' => $post->id])->sum('vote');
+        $post->score = Vote::where(['post_id' => $post->id])->sum('vote');
         $post->save();
     }
 
