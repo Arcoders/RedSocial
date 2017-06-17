@@ -11,16 +11,16 @@ class VotePostController extends Controller
     /**
     * @var voteRespository
     */
-    private $voteRespository;
+    private $voteRepository;
 
-    public function __construct(VoteRespository $voteRespository)
+    public function __construct(VoteRespository $voteRepository)
     {
-        $this->voteRespository = $voteRespository;
+        $this->voteRespository = $voteRepository;
     }
 
     public function upvote(Post $post)
     {
-        $this->voteRespository->upvote($post);
+        $this->voteRepository->upvote($post);
 
         return [
             'new_score' => $post->score
@@ -29,7 +29,7 @@ class VotePostController extends Controller
 
     public function downvote(Post $post)
     {
-        $this->voteRespository->downvote($post);
+        $this->voteRepository->downvote($post);
 
         return [
             'new_score' => $post->score
@@ -38,7 +38,7 @@ class VotePostController extends Controller
 
     public function undoVote(Post $post)
     {
-        $this->voteRespository->undoVote($post);
+        $this->voteRepository->undoVote($post);
 
         return [
             'new_score' => $post->score
