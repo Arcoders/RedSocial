@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-use App\{Vote, Vote};
+use App\{Vote};
 
 class VoteForPostTest extends TestCase
 {

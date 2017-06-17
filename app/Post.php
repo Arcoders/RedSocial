@@ -88,7 +88,7 @@ class Post extends Model
 
     public function downvote()
     {
-        $this->addVote(1);
+        $this->addVote(-1);
     }
 
     protected function addVote($amount)
@@ -98,10 +98,10 @@ class Post extends Model
             ['vote' => $amount]
         );
 
-        $this->refreshPostScore($post);
+        $this->refreshPostScore();
     }
 
-    public function undoVote($post)
+    public function undoVote()
     {
         Vote::where([
             'post_id' => $this->id,
@@ -116,7 +116,7 @@ class Post extends Model
         $this->score = Vote::query()
             ->where(['post_id' => $this->id])
             ->sum('vote');
-            
+
         $this->save();
     }
 
