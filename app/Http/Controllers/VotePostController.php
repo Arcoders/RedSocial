@@ -11,12 +11,12 @@ class VotePostController extends Controller
     /**
     * @var voteRespository
     */
-    private $voteRepository;
+    protected $voteRepository;
 
-    public function __construct(VoteRespository $voteRepository)
-    {
-        $this->voteRespository = $voteRepository;
-    }
+    public function __construct(VoteRepository $voteRepository)
+     {
+         $this->voteRepository = $voteRepository;
+     }
 
     public function upvote(Post $post)
     {
