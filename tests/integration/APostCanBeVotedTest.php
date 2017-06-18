@@ -49,6 +49,7 @@ class APostCanBeVotedTest extends TestCase
     function test_a_post_cannot_be_upvoted_twice_by_the_same_user()
     {
         $this->post->upvote();
+
         $this->post->upvote();
 
         $this->assertSame(1, Vote::count());
@@ -59,6 +60,7 @@ class APostCanBeVotedTest extends TestCase
     function test_a_post_cannot_be_downvoted_twice_by_the_same_user()
     {
         $this->post->downvote();
+
         $this->post->downvote();
 
         $this->assertSame(1, Vote::count());
