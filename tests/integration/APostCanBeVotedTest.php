@@ -49,7 +49,7 @@ class APostCanBeVotedTest extends TestCase
     function test_a_post_cannot_be_upvoted_twice_by_the_same_user()
     {
         $this->post->upvote();
-        $this->post->upvot();
+        $this->post->upvote();
 
         $this->assertSame(1, Vote::count());
 
