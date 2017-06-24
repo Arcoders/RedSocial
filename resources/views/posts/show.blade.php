@@ -20,13 +20,7 @@
                 @endif
             </p>
 
-            <div>
-                <form>
-                    <button type="button" class="btn btn-default">+1</button>
-                    Puntuacón actual: <strong id="current-score">5</strong>
-                    <button type="button" class="btn btn-default">-1</button>
-                </form>
-            </div>
+            <app-vote></app-vote>
 
             {!! $post->safe_html_content !!}
 
