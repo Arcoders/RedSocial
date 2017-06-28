@@ -32,7 +32,7 @@ Route::post('posts/{post}-{slug}/downvote', [
 
 ])->where('post', '\d+');
 
-Route::post('posts/{post}-{slug}/vote', [
+Route::delete('posts/{post}-{slug}/vote', [
 
     'uses' => 'VotePostController@undoVote',
 

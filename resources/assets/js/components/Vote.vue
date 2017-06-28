@@ -4,9 +4,13 @@
     <div>
         <form>
             <button @click.prevent="upvote"
-                type="button" class="btn btn-default">+1</button>
+                    :class="currentVote == 1 ? 'btn-primary' : 'btn-default'"
+                    type="button"
+                    class="btn">
+                    +1
+            </button>
 
-            Puntuacón actual: <strong id="current-score">5</strong>
+            Puntuacón actual: <strong id="current-score">{{ currentScore }}</strong>
 
             <button @click.prevent="downvote"
             type="button" class="btn btn-default">-1</button>
@@ -18,11 +22,29 @@
 <script>
 
     export default {
+        props: ['score', 'vote'],
+        data()
+        {
+            return {
+                currentVote: this.vote,
+                currentScore: this.score,
+                currentUrl: window.location.href
+            }
+        },
         methods:
         {
             upvote()
             {
-                axios.post(window.location.href + '/upvote');
+                if (this.currentVote == 1)
+                {
+                    axios.delete(`${ this.currentUrl }/vote`);
+                    this.currentVote = null;
+                }
+                else
+                {
+                    axios.post(`${ this.currentUrl }/upvote`);
+                    this.currentVote = 1;
+                }
             },
             downvote()
             {

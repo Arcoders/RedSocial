@@ -1749,12 +1749,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['score', 'vote'],
+    data: function data() {
+        return {
+            currentVote: this.vote,
+            currentScore: this.score,
+            currentUrl: window.location.href
+        };
+    },
+
     methods: {
         upvote: function upvote() {
-            axios.post(window.location.href + '/upvote');
+            if (this.currentVote == 1) {
+                axios.delete(this.currentUrl + '/vote');
+                this.currentVote = null;
+            } else {
+                axios.post(this.currentUrl + '/upvote');
+                this.currentVote = 1;
+            }
         },
         downvote: function downvote() {}
     }
@@ -31804,7 +31823,8 @@ module.exports = Component.exports
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('form', [_c('button', {
-    staticClass: "btn btn-default",
+    staticClass: "btn",
+    class: _vm.currentVote == 1 ? 'btn-primary' : 'btn-default',
     attrs: {
       "type": "button"
     },
@@ -31814,11 +31834,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.upvote($event)
       }
     }
-  }, [_vm._v("+1")]), _vm._v("\n\n        Puntuacón actual: "), _c('strong', {
+  }, [_vm._v("\n                +1\n        ")]), _vm._v("\n\n        Puntuacón actual: "), _c('strong', {
     attrs: {
       "id": "current-score"
     }
-  }, [_vm._v("5")]), _vm._v(" "), _c('button', {
+  }, [_vm._v(_vm._s(_vm.currentScore))]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default",
     attrs: {
       "type": "button"
