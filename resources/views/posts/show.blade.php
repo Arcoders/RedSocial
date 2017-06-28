@@ -20,6 +20,8 @@
                 @endif
             </p>
 
+            <h4>{{ $post->score }}</h4>
+
             <app-vote></app-vote>
 
             {!! $post->safe_html_content !!}
