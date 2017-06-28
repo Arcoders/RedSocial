@@ -37,11 +37,13 @@
             {
                 if (this.currentVote == 1)
                 {
+                    this.currentScore--;
                     axios.delete(`${ this.currentUrl }/vote`);
                     this.currentVote = null;
                 }
                 else
                 {
+                    this.currentScore++;
                     axios.post(`${ this.currentUrl }/upvote`);
                     this.currentVote = 1;
                 }
