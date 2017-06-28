@@ -7,7 +7,12 @@ trait CanBeVoted
 
     public function getCurrentVoteAttribute()
     {
-        return Vote::where('user_id', auth()->id())->value('vote');
+        $this->getVoteFrom(auth()->user());
+    }
+
+    public function getVoteFrom(User $user)
+    {
+        return Vote::where('user_id', $user->id)->value('vote');
     }
 
     public function upvote()
