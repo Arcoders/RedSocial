@@ -13,7 +13,11 @@
             Puntuacón actual: <strong id="current-score">{{ currentScore }}</strong>
 
             <button @click.prevent="downvote"
-            type="button" class="btn btn-default">-1</button>
+                    :class="currentVote == -1 ? 'btn-primary' : 'btn-default'"
+                    type="button"
+                    class="btn">
+                    -1
+            </button>
         </form>
     </div>
 
@@ -26,8 +30,8 @@
         data()
         {
             return {
-                currentVote: this.vote,
-                currentScore: this.score,
+                currentVote: this.vote ? parseInt(this.vote) : null,
+                currentScore: parseInt(this.score),
                 currentUrl: window.location.href
             }
         },
@@ -43,14 +47,25 @@
                 }
                 else
                 {
-                    this.currentScore++;
+                    this.currentScore += this.currentVote ? 2 : 1;
                     axios.post(`${ this.currentUrl }/upvote`);
                     this.currentVote = 1;
                 }
             },
             downvote()
             {
-
+                if (this.currentVote == -1)
+                {
+                    this.currentScore++;
+                    axios.delete(`${ this.currentUrl }/vote`);
+                    this.currentVote = null;
+                }
+                else
+                {
+                    this.currentScore += this.currentVote ? -2 : -1;
+                    axios.post(`${ this.currentUrl }/downvote`);
+                    this.currentVote = -1;
+                }
             }
         }
     }

@@ -1753,14 +1753,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['score', 'vote'],
     data: function data() {
         return {
-            currentVote: this.vote,
-            currentScore: this.score,
+            currentVote: this.vote ? parseInt(this.vote) : null,
+            currentScore: parseInt(this.score),
             currentUrl: window.location.href
         };
     },
@@ -1772,12 +1776,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 axios.delete(this.currentUrl + '/vote');
                 this.currentVote = null;
             } else {
-                this.currentScore++;
+                this.currentScore += this.currentVote ? 2 : 1;
                 axios.post(this.currentUrl + '/upvote');
                 this.currentVote = 1;
             }
         },
-        downvote: function downvote() {}
+        downvote: function downvote() {
+            if (this.currentVote == -1) {
+                this.currentScore++;
+                axios.delete(this.currentUrl + '/vote');
+                this.currentVote = null;
+            } else {
+                this.currentScore += this.currentVote ? -2 : -1;
+                axios.post(this.currentUrl + '/downvote');
+                this.currentVote = -1;
+            }
+        }
     }
 });
 
@@ -31841,7 +31855,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "current-score"
     }
   }, [_vm._v(_vm._s(_vm.currentScore))]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-default",
+    staticClass: "btn",
+    class: _vm.currentVote == -1 ? 'btn-primary' : 'btn-default',
     attrs: {
       "type": "button"
     },
@@ -31851,7 +31866,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.downvote($event)
       }
     }
-  }, [_vm._v("-1")])])])
+  }, [_vm._v("\n                -1\n        ")])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
