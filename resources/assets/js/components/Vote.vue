@@ -5,6 +5,7 @@
         <form>
             <button @click.prevent="upvote"
                     :class="currentVote == 1 ? 'btn-primary' : 'btn-default'"
+                    :disabled="voteInProgress"
                     type="button"
                     class="btn">
                     +1
@@ -14,6 +15,7 @@
 
             <button @click.prevent="downvote"
                     :class="currentVote == -1 ? 'btn-primary' : 'btn-default'"
+                    :disabled="voteInProgress"
                     type="button"
                     class="btn">
                     -1
@@ -32,7 +34,7 @@
             return {
                 currentVote: this.vote ? parseInt(this.vote) : null,
                 currentScore: parseInt(this.score),
-                currentUrl: window.location.href
+                voteInProgress: false
             }
         },
         methods:
@@ -47,18 +49,36 @@
             },
             addVote(amount)
             {
+                this.voteInProgress = true;
+
                 if (this.currentVote == amount)
                 {
-                    this.currentScore -= this.currentVote;
-                    axios.delete(`${ this.currentUrl }/vote`);
+                    this.processRequest('delete', 'vote');
+
                     this.currentVote = null;
                 }
                 else
                 {
-                    this.currentScore += this.currentVote ? (amount * 2) : amount;
-                    axios.post(window.location.href + (amount == 1 ? '/upvote' : '/downvote'));
+                    this.processRequest('post', (amount == 1 ? 'upvote' : 'downvote'));
+
                     this.currentVote = amount;
                 }
+            },
+            processRequest(method, action)
+            {
+                axios[method](this.buildUrl(action)).then((res) => {
+                    this.currentScore = res.data.new_score;
+
+                    this.voteInProgress = false;
+                }).catch((thrown) => {
+                    alert('Error...');
+
+                    this.voteInProgress = false;
+                });
+            },
+            buildUrl(action)
+            {
+                return window.location.href + '/' + action;
             }
         }
     }
