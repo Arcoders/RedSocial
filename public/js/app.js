@@ -1771,25 +1771,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         upvote: function upvote() {
-            if (this.currentVote == 1) {
-                this.currentScore--;
-                axios.delete(this.currentUrl + '/vote');
-                this.currentVote = null;
-            } else {
-                this.currentScore += this.currentVote ? 2 : 1;
-                axios.post(this.currentUrl + '/upvote');
-                this.currentVote = 1;
-            }
+            this.addVote(1);
         },
         downvote: function downvote() {
-            if (this.currentVote == -1) {
-                this.currentScore++;
+            this.addVote(-1);
+        },
+        addVote: function addVote(amount) {
+            if (this.currentVote == amount) {
+                this.currentScore -= this.currentVote;
                 axios.delete(this.currentUrl + '/vote');
                 this.currentVote = null;
             } else {
-                this.currentScore += this.currentVote ? -2 : -1;
-                axios.post(this.currentUrl + '/downvote');
-                this.currentVote = -1;
+                this.currentScore += this.currentVote ? amount * 2 : amount;
+                axios.post(window.location.href + (amount == 1 ? '/upvote' : '/downvote'));
+                this.currentVote = amount;
             }
         }
     }
