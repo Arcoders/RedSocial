@@ -51,7 +51,7 @@ class VoteForPostTest extends TestCase
          $this->assertSame(-1, $post->fresh()->score);
     }
 
-    function test_a_user_can_unvote_for_a_post()
+    function test_a_user_can_unvote_a_post()
     {
         $this->actingAs($user = $this->defaultUser());
 
@@ -59,7 +59,7 @@ class VoteForPostTest extends TestCase
 
         $post->upvote();
 
-        $this->postJson($post->url . '/vote')
+        $this->deleteJson($post->url . '/vote')
              ->assertSuccessful()
              ->assertJson([
                  'new_score' => 0
