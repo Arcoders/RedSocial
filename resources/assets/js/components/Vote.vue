@@ -59,7 +59,7 @@
                 }
                 else
                 {
-                    this.processRequest('post', amount);
+                    this.processRequest('post', 'vote/' + amount);
 
                     this.currentVote = amount;
                 }

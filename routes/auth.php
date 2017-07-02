@@ -20,13 +20,13 @@ Route::post('posts/create', [
 
 // Votes
 
-Route::post('posts/{post}-{slug}/1', [
+Route::post('posts/{post}-{slug}/vote/1', [
 
     'uses' => 'VotePostController@upvote',
 
 ])->where('post', '\d+');
 
-Route::post('posts/{post}-{slug}/-1', [
+Route::post('posts/{post}-{slug}/vote/-1', [
 
     'uses' => 'VotePostController@downvote',
 
