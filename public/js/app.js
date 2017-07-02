@@ -1786,7 +1786,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 this.currentVote = null;
             } else {
-                this.processRequest('post', amount == 1 ? 'upvote' : 'downvote');
+                this.processRequest('post', amount);
 
                 this.currentVote = amount;
             }
