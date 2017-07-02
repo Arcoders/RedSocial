@@ -7,7 +7,7 @@ trait CanBeVoted
 
     public function getCurrentVoteAttribute()
     {
-        $this->getVoteFrom(auth()->user());
+        return $this->getVoteFrom(auth()->user());
     }
 
     public function getVoteFrom(User $user)

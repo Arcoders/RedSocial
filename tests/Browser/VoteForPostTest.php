@@ -15,7 +15,7 @@ class VoteForPostTest extends DuskTestCase
         $user = $this->defaultUser();
         $post = $this->createPost();
 
-        $this->browse(function (Browser $browser) use ($user, $post){
+        $this->browse(function (Browser $browser) use ($user, $post) {
             $browser->loginAs($user)
                     ->visit($post->url)
                     ->pressAndWaitFor('+1')
