@@ -47,10 +47,7 @@ trait CanBeVoted
 
     public function undoVote()
     {
-        Vote::where([
-            'post_id' => $this->id,
-            'user_id' => auth()->id()
-        ])->delete();
+        $this->votes()->where('user_id', auth()->id())->delete();
 
         $this->refreshPostScore();
     }
