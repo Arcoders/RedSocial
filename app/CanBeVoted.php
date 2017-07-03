@@ -54,9 +54,7 @@ trait CanBeVoted
 
     protected function refreshPostScore()
     {
-        $this->score = Vote::query()
-            ->where(['post_id' => $this->id])
-            ->sum('vote');
+        $this->score = $this->votes()->sum('vote');
 
         $this->save();
     }
