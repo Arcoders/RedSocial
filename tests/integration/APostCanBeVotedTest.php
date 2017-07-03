@@ -24,11 +24,7 @@ class APostCanBeVotedTest extends TestCase
     {
         $this->post->upvote();
 
-        $this->assertDatabaseHas('votes', [
-            'post_id' => $this->post->id,
-            'user_id' => $this->user->id,
-            'vote' => 1
-        ]);
+        $this->assertSame(1, $this->post->current_vote);
 
         $this->assertSame(1, $this->post->score);
     }
