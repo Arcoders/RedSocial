@@ -15,7 +15,10 @@ trait CanBeVoted
 
     public function getVoteFrom(User $user)
     {
-        return Vote::where('user_id', $user->id)->value('vote');
+        return Vote::query()
+                    ->where('user_id', $user->id)
+                    ->where('post_id', $this->id)
+                    ->value('vote');
     }
 
     public function upvote()
