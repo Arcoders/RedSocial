@@ -5,6 +5,11 @@ namespace App;
 trait CanBeVoted
 {
 
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
     public function getCurrentVoteAttribute()
     {
         if(auth()->check())
@@ -15,10 +20,9 @@ trait CanBeVoted
 
     public function getVoteFrom(User $user)
     {
-        return Vote::query()
-                    ->where('user_id', $user->id)
-                    ->where('post_id', $this->id)
-                    ->value('vote');
+        return $this->votes()
+        ->where('user_id', $user->id)
+        ->value('vote');
     }
 
     public function upvote()
