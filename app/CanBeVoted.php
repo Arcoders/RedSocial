@@ -6,6 +6,8 @@ use Collective\Html\HtmlFacade as Html;
 trait CanBeVoted
 {
 
+    // Relaciones polimórficas con Eloquent
+
     public function votes()
     {
         return $this->morphMany(Vote::class, 'votable');
