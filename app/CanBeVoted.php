@@ -8,7 +8,7 @@ trait CanBeVoted
 
     public function votes()
     {
-        return $this->morphMany(Vote::class);
+        return $this->morphMany(Vote::class, 'votable');
     }
 
     public function getCurrentVoteAttribute()

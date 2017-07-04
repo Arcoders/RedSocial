@@ -84,8 +84,7 @@ class APostCanBeVotedTest extends TestCase
 
     function test_the_post_score_is_calculated_correctly()
     {
-        Vote::create([
-            'post_id' => $this->post->id,
+        $this->post->votes()->create([
             'user_id' => $this->anyone()->id,
             'vote' => 1
         ]);
