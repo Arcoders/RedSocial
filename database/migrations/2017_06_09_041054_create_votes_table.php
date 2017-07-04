@@ -21,7 +21,7 @@ class CreateVotesTable extends Migration
 
             $table->unsignedInteger('votable_id')->index();
             $table->string('votable_type', 20)->index();
-            $table->unique(['votable_id', 'votable_type']);
+            $table->unique(['user_id', 'votable_id', 'votable_type']);
 
             $table->tinyInteger('vote');
 
