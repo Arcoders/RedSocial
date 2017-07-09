@@ -46,5 +46,14 @@ class VoteForCommentTest extends TestCase
         $this->assertNull($this->comment->current_vote);
         $this->assertSame(0, $this->comment->score);
     }
-
+    function test_a_guest_user_cannot_vote_for_a_comment()
+    {
+        auth()->logout();
+        $this->postJson("comments/{$this->comment->id}/vote/1")
+            ->assertStatus(401)
+            ->assertJson(['error' => 'Unauthenticated.']);
+        $this->comment->refresh();
+        $this->assertNull($this->comment->current_vote);
+        $this->assertSame(0, $this->comment->score);
+    }
 }
