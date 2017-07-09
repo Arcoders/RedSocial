@@ -34,5 +34,17 @@ class VoteForCommentTest extends TestCase
         $this->assertSame(-1, $this->comment->current_vote);
         $this->assertSame(-1, $this->comment->score);
     }
+    function test_a_user_can_unvote_a_comment()
+    {
+        $this->comment->upvote();
+        $this->deleteJson("comments/{$this->comment->id}/vote/")
+            ->assertSuccessful()
+            ->assertJson([
+                'new_score' => 0
+            ]);
+        $this->comment->refresh();
+        $this->assertNull($this->comment->current_vote);
+        $this->assertSame(0, $this->comment->score);
+    }
 
 }
