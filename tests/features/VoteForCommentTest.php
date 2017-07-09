@@ -23,6 +23,16 @@ class VoteForCommentTest extends TestCase
         $this->assertSame(1, $this->comment->current_vote);
         $this->assertSame(1, $this->comment->score);
     }
-
+    function test_a_user_can_downvote_for_a_comment()
+    {
+        $this->postJson("comments/{$this->comment->id}/vote/-1")
+            ->assertSuccessful()
+            ->assertJson([
+                'new_score' => -1
+            ]);
+        $this->comment->refresh();
+        $this->assertSame(-1, $this->comment->current_vote);
+        $this->assertSame(-1, $this->comment->score);
+    }
 
 }
